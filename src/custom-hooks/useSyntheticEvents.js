@@ -5,6 +5,7 @@ const useSyntheticEvents = () => {
   const [isActive, setIsActive] = React.useState();
   const [isFocus, setIsFocus] = React.useState();
   const [isTouch, setIsTouch] = React.useState();
+  const [isInteracted, setIsInteracted] = React.useState();
   const onMouseEnter = React.useCallback(e => {
     setIsHover(true);
   }, []);
@@ -29,16 +30,29 @@ const useSyntheticEvents = () => {
   const onTouchEnd = React.useCallback(e => {
     setIsTouch(false);
   }, []);
+  // Pointer Events
+  const onPointerEnter = React.useCallback(e => {
+    setIsInteracted(true);
+  }, []);
+  const onPointerLeave = React.useCallback(e => {
+    setIsInteracted(false);
+  }, []);
+  const onPointerDown = React.useCallback(e => {
+    setIsInteracted(true);
+  }, []);
+  const onPointerUp = React.useCallback(e => {
+    setIsInteracted(false);
+  }, []);
   const element = React.useMemo(() => {
     return {
-      isHover, isActive, isFocus, isTouch, isInteracted: isHover || isActive || isTouch || isFocus
+      isHover, isActive, isFocus, isTouch, isInteracted
     };
-  }, [isHover, isActive, isFocus, isTouch]);
+  }, [isHover, isActive, isFocus, isTouch, isInteracted]);
   const eventHandlers = React.useMemo(() => {
     return {
-      onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onFocus, onBlur, onTouchStart, onTouchEnd
+      onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onFocus, onBlur, onTouchStart, onTouchEnd, onPointerEnter, onPointerLeave, onPointerDown, onPointerUp
     };
-  }, [onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onFocus, onBlur, onTouchStart, onTouchEnd]);
+  }, [onMouseEnter, onMouseLeave, onMouseDown, onMouseUp, onFocus, onBlur, onTouchStart, onTouchEnd, onPointerEnter, onPointerLeave, onPointerDown, onPointerUp]);
   return [element, eventHandlers];
 };
 

@@ -45,6 +45,7 @@ const FileDiv = ({ file, onRemove }) => {
       </>;
     }
     else {
+      // supported
       if (extension === 'pdf') {
         return <>
           <FileIconWrapper src={FilePDF} />

@@ -3,6 +3,7 @@ import DimBackground from './DimBackground';
 import PopUpContainer from './PopUpContainer';
 import SubmitButton from './SubmitButton';
 import CancelButton from './CancelButton';
+import FormP from './FormP';
 
 const ConfirmationScreen = ({ confirmationScreen, onCancel, onConfirm }) => {
   const { confirmCallback, show } = confirmationScreen;
@@ -19,7 +20,7 @@ const ConfirmationScreen = ({ confirmationScreen, onCancel, onConfirm }) => {
   }, [confirmCallback, onConfirm]);
   return <DimBackground show={show}>
     <PopUpContainer>
-      <p>{confirmationScreen.text}</p>
+      <FormP>{confirmationScreen.text}</FormP>
       <SubmitButton onClick={onConfirmConfirmationScreen}>Confirm</SubmitButton>
       <CancelButton onClick={onCancel}>Cancel</CancelButton>
     </PopUpContainer>
