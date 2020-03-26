@@ -40,7 +40,7 @@ const useForm = (defaultValues, callback, validate) => {
       return newValues;
     });
 
-  }, [validate, values]);
+  }, [validate]);
 
   return {
     handleChange,

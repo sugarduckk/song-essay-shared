@@ -19,7 +19,7 @@ const useDragEvents = (onFilesDrop) => {
   const onDragOver = React.useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
-  }, [isDragOver]);
+  }, []);
   const onDrop = React.useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
