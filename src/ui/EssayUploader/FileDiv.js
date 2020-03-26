@@ -26,7 +26,6 @@ const FileDiv = ({ file, onRemove }) => {
     }
     else {
       const ext = extArray.pop().toLowerCase();
-      console.log(ext);
       if (FILE_EXTENTIONS.includes(ext)) {
         setExtension(ext);
       }
@@ -38,7 +37,6 @@ const FileDiv = ({ file, onRemove }) => {
 
   const renderError = React.useMemo(() => {
     if (error) {
-      console.log(error);
       return <>
         <FileIconWrapper src={FileUnsupported} />
         <TextTag bgColor='crimson'>{error}</TextTag>

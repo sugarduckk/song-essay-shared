@@ -10,6 +10,7 @@ const FileDivContainer = withSyntheticEvents(styled.div`
   box-shadow: 0px ${props => props.isInteracted ? '2' : '0'}px ${props => props.isInteracted ? '2' : '0'}px 0px rgba(0,0,0,0.4);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: 0.15s ease-in;
 `);
 
 export default FileDivContainer;
