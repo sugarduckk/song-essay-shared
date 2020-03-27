@@ -28,7 +28,7 @@ const CustomScreen = ({ customScreen, onSubmit, onCancel }) => {
         <PopUpContainer>
             <FloatingForm onSubmit={handleSubmit}>
                 <Fieldset disabled={isSubmitting}>
-                    {FormItems && <FormItems {...formProps} values={values} handleChange={handleChange} errors={errors} />}
+                    {FormItems && <FormItems {...formProps} values={values || defaultValues} handleChange={handleChange} errors={errors} />}
                     <SubmitButton type='submit'>Submit</SubmitButton>
                     <CancelButton type='button' onClick={onCancel}>Cancel</CancelButton>
                 </Fieldset>

@@ -6,7 +6,7 @@ import FormP from './FormP';
 
 const DialogScreen = ({ dialogScreen, onDismiss }) => {
     const { text, show } = dialogScreen;
-    return <DimBackground>
+    return <DimBackground show={show}>
         <PopUpContainer>
             <FormP>{text}</FormP>
             <DismissButton onClick={onDismiss}>Dismiss</DismissButton>

@@ -6,6 +6,7 @@ import TextTag from '../TextTag';
 import FileUnsupported from '../../res/icons/file_unsupported.svg';
 import FilePDF from '../../res/icons/file_pdf.svg';
 import FileDOC from '../../res/icons/file_doc.svg';
+import FileTXT from '../../res/icons/file_txt.svg';
 import FileOptionMenu from './FileOptionMenu';
 
 const FILE_EXTENTIONS = [
@@ -14,7 +15,8 @@ const FILE_EXTENTIONS = [
   'jpg',
   'jpeg',
   'doc',
-  'docx'
+  'docx',
+  'txt'
 ];
 
 const FileDiv = ({ file, onRemove }) => {
@@ -56,6 +58,12 @@ const FileDiv = ({ file, onRemove }) => {
         return <>
           <FileIconWrapper src={FileDOC} />
           <TextTag bgColor='#2A5699'>{`.${extension} file`}</TextTag>
+        </>;
+      }
+      else if (extension === 'txt') {
+        return <>
+          <FileIconWrapper src={FileTXT} />
+          <TextTag bgColor='#505050'>{`.${extension} file`}</TextTag>
         </>;
       }
       else {
