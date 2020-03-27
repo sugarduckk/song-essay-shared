@@ -9,6 +9,7 @@ const NavBarContainer = styled.div`
   padding: ${props => props.theme.Dim.NavBarPadding}px;
   box-sizing: border-box;
   transition: top 0.15s;
+  z-index: 2;
 `;
 
 export default NavBarContainer;

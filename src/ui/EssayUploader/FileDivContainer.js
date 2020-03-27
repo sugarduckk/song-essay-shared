@@ -11,6 +11,9 @@ const FileDivContainer = withSyntheticEvents(styled.div`
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: 0.15s ease-in;
+  position: relative;
+  overflow: hidden; // This is for clipping corner
+  z-index: 1;
 `);
 
 export default FileDivContainer;

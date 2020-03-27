@@ -41,7 +41,9 @@ const useSyntheticEvents = () => {
     setIsInteracted(true);
   }, []);
   const onPointerUp = React.useCallback(e => {
-    setIsInteracted(false);
+    if (e.pointerType === 'touch') {
+      setIsInteracted(false);
+    }
   }, []);
   const element = React.useMemo(() => {
     return {

@@ -6,6 +6,7 @@ import TextTag from '../TextTag';
 import FileUnsupported from '../../res/icons/file_unsupported.svg';
 import FilePDF from '../../res/icons/file_pdf.svg';
 import FileDOC from '../../res/icons/file_doc.svg';
+import FileOptionMenu from './FileOptionMenu';
 
 const FILE_EXTENTIONS = [
   'pdf',
@@ -17,6 +18,7 @@ const FILE_EXTENTIONS = [
 ];
 
 const FileDiv = ({ file, onRemove }) => {
+  const [showMenu, setShowMenu] = React.useState();
   const [error, setError] = React.useState();
   const [extension, setExtension] = React.useState();
   React.useEffect(() => {
@@ -35,7 +37,7 @@ const FileDiv = ({ file, onRemove }) => {
     }
   }, [file]);
 
-  const renderError = React.useMemo(() => {
+  const renderUi = React.useMemo(() => {
     if (error) {
       return <>
         <FileIconWrapper src={FileUnsupported} />
@@ -64,10 +66,23 @@ const FileDiv = ({ file, onRemove }) => {
       }
     }
   }, [error, extension, file]);
-  return <FileDivContainer error={error}>
+  const onClick = React.useCallback(e => {
+    if (!error) {
+      console.log('show menu');
+      setShowMenu(true);
+    }
+  }, [error]);
+  const onCancel = React.useCallback(e => {
+    if (!error) {
+      console.log('hide menu');
+      setShowMenu(false);
+    }
+  }, [error]);
+  return <FileDivContainer error={error} onClick={onClick}>
     {error && <RedButton onClick={onRemove}>Remove</RedButton>}
-    {renderError}
+    {renderUi}
     <div style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{file.name}</div>
+    <FileOptionMenu showMenu={showMenu} onRemove={onRemove} onCancel={onCancel} />
   </FileDivContainer>;
 };
 
