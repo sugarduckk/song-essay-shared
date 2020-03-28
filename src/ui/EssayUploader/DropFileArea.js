@@ -9,9 +9,6 @@ const DropFileArea = styled.div`
   font-family: Prompt;
   text-align: center;
   box-shadow: 0px 2px ${props => props.isDragOver ? '4' : '2'}px 0px rgba(0,0,0,0.4);
-  // > * {
-  //   pointer-events: ${props => props.isDragOver ? 'none' : 'auto'};
-  // }
 `;
 
 export default DropFileArea;

@@ -39,6 +39,7 @@ import useDragEvents from './custom-hooks/useDragEvents';
 import * as EssayUploader from './ui/EssayUploader';
 import FormItemErrorMessage from './ui/FormItemErrorMessage';
 import Label from './ui/Label';
+import LabelledRadioGroup from './ui/LabelledRadioGroup';
 
 export {
   ThemeProvider,
@@ -81,5 +82,6 @@ export {
   EssayUploader,
   CenterContentContainer,
   useDragEvents,
-  FormItemErrorMessage
+  FormItemErrorMessage,
+  LabelledRadioGroup
 };
