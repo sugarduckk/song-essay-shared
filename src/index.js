@@ -40,6 +40,7 @@ import * as EssayUploader from './ui/EssayUploader';
 import FormItemErrorMessage from './ui/FormItemErrorMessage';
 import Label from './ui/Label';
 import LabelledRadioGroup from './ui/LabelledRadioGroup';
+import LabelledSelect from './ui/LabelledSelect';
 
 export {
   ThemeProvider,
@@ -83,5 +84,6 @@ export {
   CenterContentContainer,
   useDragEvents,
   FormItemErrorMessage,
-  LabelledRadioGroup
+  LabelledRadioGroup,
+  LabelledSelect
 };

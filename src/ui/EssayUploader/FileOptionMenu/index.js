@@ -8,8 +8,8 @@ const FileOptionMenu = ({ showMenu, onRemove, onCancel }) => {
     e.stopPropagation();
   }, []);
   return <FileOptionMenuContainer showMenu={showMenu} onClick={onClick}>
-    <RedButton onClick={onRemove}>Delete</RedButton>
-    <PrimaryButton onClick={onCancel}>Cancel</PrimaryButton>
+    <RedButton type='button' onClick={onRemove}>Delete</RedButton>
+    <PrimaryButton type='button' onClick={onCancel}>Cancel</PrimaryButton>
   </FileOptionMenuContainer>;
 };
 
