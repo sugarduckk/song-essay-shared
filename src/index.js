@@ -41,6 +41,7 @@ import FormItemErrorMessage from './ui/FormItemErrorMessage';
 import Label from './ui/Label';
 import LabelledRadioGroup from './ui/LabelledRadioGroup';
 import LabelledSelect from './ui/LabelledSelect';
+import UploadScreen from './ui/UploadScreen';
 
 export {
   ThemeProvider,
@@ -85,5 +86,6 @@ export {
   useDragEvents,
   FormItemErrorMessage,
   LabelledRadioGroup,
-  LabelledSelect
+  LabelledSelect,
+  UploadScreen
 };
