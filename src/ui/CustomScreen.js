@@ -7,7 +7,7 @@ import SubmitButton from './SubmitButton';
 import CancelButton from './CancelButton';
 import useForm from '../custom-hooks/useForm';
 
-const CustomScreen = ({ customScreen, onSubmit, onCancel }) => {
+const CustomScreen = ({ customScreen, onSubmit, onCancel, onTransitionEnd }) => {
     const { FormItems, formProps, show, validator, submitCallback, defaultValues } = customScreen;
 
     const onCustomScreenSubmit = React.useCallback((values, setIsSubmitting) => {
@@ -24,7 +24,7 @@ const CustomScreen = ({ customScreen, onSubmit, onCancel }) => {
 
     const { handleChange, handleSubmit, values, errors, isSubmitting } = useForm(defaultValues, onCustomScreenSubmit, validator);
 
-    return <DimBackground show={show}>
+    return <DimBackground show={show} onTransitionEnd={onTransitionEnd}>
         <PopUpContainer>
             <FloatingForm onSubmit={handleSubmit}>
                 <Fieldset disabled={isSubmitting}>

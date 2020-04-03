@@ -6,7 +6,14 @@ const Form = styled.form`
   box-sizing: border-box;
   padding: 10px;
   border-radius: 5px;
-  display: ${props => props.show ? 'block' : 'none'};
+  display: ${props => {
+    if (props.show === undefined || props.show) {
+      return 'block';
+    }
+    else {
+      return 'none';
+    }
+  }};
 `;
 
 export default Form;

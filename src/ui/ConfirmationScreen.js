@@ -6,7 +6,7 @@ import CancelButton from './CancelButton';
 import FormP from './FormP';
 
 const ConfirmationScreen = ({ confirmationScreen, onCancel, onConfirm, onTransitionEnd }) => {
-  const { confirmCallback, show } = confirmationScreen;
+  const { text, confirmCallback, show } = confirmationScreen;
   const onConfirmConfirmationScreen = React.useCallback(e => {
     const promise = confirmCallback();
     if (promise) {
@@ -20,7 +20,7 @@ const ConfirmationScreen = ({ confirmationScreen, onCancel, onConfirm, onTransit
   }, [confirmCallback, onConfirm]);
   return <DimBackground show={show} onTransitionEnd={onTransitionEnd}>
     <PopUpContainer>
-      <FormP>{confirmationScreen.text}</FormP>
+      <FormP>{text}</FormP>
       <SubmitButton onClick={onConfirmConfirmationScreen}>Confirm</SubmitButton>
       <CancelButton onClick={onCancel}>Cancel</CancelButton>
     </PopUpContainer>
