@@ -9,17 +9,7 @@ import FileDOC from '../../res/icons/file_doc.svg';
 import FileTXT from '../../res/icons/file_txt.svg';
 import FileOptionMenu from './FileOptionMenu';
 
-const FILE_EXTENTIONS = [
-  'pdf',
-  'png',
-  'jpg',
-  'jpeg',
-  'doc',
-  'docx',
-  'txt'
-];
-
-const FileDiv = ({ file, onRemove }) => {
+const FileDiv = ({ file, onRemove, acceptFiles }) => {
   const [showMenu, setShowMenu] = React.useState();
   const [error, setError] = React.useState();
   const [extension, setExtension] = React.useState();
@@ -30,14 +20,14 @@ const FileDiv = ({ file, onRemove }) => {
     }
     else {
       const ext = extArray.pop().toLowerCase();
-      if (FILE_EXTENTIONS.includes(ext)) {
+      if (acceptFiles.includes(ext)) {
         setExtension(ext);
       }
       else {
         setError(`.${ext} not supported`);
       }
     }
-  }, [file]);
+  }, [file, acceptFiles]);
 
   const renderUi = React.useMemo(() => {
     if (error) {

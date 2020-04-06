@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const EssayUploaderArea = styled.div`
+const FileUploaderArea = styled.div`
   display: flex;
   flex-direction: column;
   margin: ${props => props.theme.Dim.FormItemMargin}px;
@@ -9,4 +9,4 @@ const EssayUploaderArea = styled.div`
   padding: 0.75em;
 `;
 
-export default EssayUploaderArea;
+export default FileUploaderArea;

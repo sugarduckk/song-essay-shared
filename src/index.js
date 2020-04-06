@@ -36,12 +36,17 @@ import ConfirmationScreen from './ui/ConfirmationScreen';
 import DialogScreen from './ui/DialogScreen';
 import CenterContentContainer from './ui/CenterContentContainer';
 import useDragEvents from './custom-hooks/useDragEvents';
-import * as EssayUploader from './ui/EssayUploader';
+import LabelledFileUploader from './ui/LabelledFileUploader';
 import FormItemErrorMessage from './ui/FormItemErrorMessage';
 import Label from './ui/Label';
 import LabelledRadioGroup from './ui/LabelledRadioGroup';
 import LabelledSelect from './ui/LabelledSelect';
 import UploadScreen from './ui/UploadScreen';
+import * as SubmissionStatus from './ui/SubmissionStatus';
+import BottomBar from './ui/BottomBar';
+import StatusBar from './ui/StatusBar';
+import BottomBarScreen from './ui/BottomBarScreen';
+import UploadFileButton from './ui/UploadFileButton';
 
 export {
   ThemeProvider,
@@ -81,11 +86,16 @@ export {
   CustomScreen,
   ConfirmationScreen,
   DialogScreen,
-  EssayUploader,
   CenterContentContainer,
   useDragEvents,
   FormItemErrorMessage,
   LabelledRadioGroup,
   LabelledSelect,
-  UploadScreen
+  UploadScreen,
+  SubmissionStatus,
+  BottomBar,
+  StatusBar,
+  BottomBarScreen,
+  UploadFileButton,
+  LabelledFileUploader
 };
