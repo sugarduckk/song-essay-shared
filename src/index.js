@@ -47,6 +47,7 @@ import BottomBar from './ui/BottomBar';
 import StatusBar from './ui/StatusBar';
 import BottomBarScreen from './ui/BottomBarScreen';
 import UploadFileButton from './ui/UploadFileButton';
+import ImageCropper from './ui/ImageCropper';
 
 export {
   ThemeProvider,
@@ -97,5 +98,6 @@ export {
   StatusBar,
   BottomBarScreen,
   UploadFileButton,
-  LabelledFileUploader
+  LabelledFileUploader,
+  ImageCropper
 };

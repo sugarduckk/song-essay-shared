@@ -98,7 +98,7 @@ const LabelledFileUploader = ({ fileExistCallback, name, value, onChange, label,
         </FilesContainer>
       </DropFileArea>
       <DividerWithText text='or' />
-      <BrowseFileButton label={browseButtonLabel} accept={accept} onChange={browseFiles} />
+      <BrowseFileButton label={browseButtonLabel} accept={accept} onChange={browseFiles} multiple={true} />
     </FileUploaderArea>
     {error && <FormItemErrorMessage>{error}</FormItemErrorMessage>}
   </>;
