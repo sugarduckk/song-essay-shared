@@ -8,48 +8,61 @@ const eventToCoor = e => {
 };
 
 const usePointerHandlers = () => {
-  const [anchor, setAnchor] = React.useState();
+  const [anchor, setAnchor] = React.useState({ x: 0, y: 0 });
+  const [isMoving, setIsMoving] = React.useState(false);
   const [offset, setOffset] = React.useState({ x: 0, y: 0 });
-  const [movedDis, setMovedDis] = React.useState({ x: 0, y: 0 });
+  const [zoomOffset, setZoomOffset] = React.useState({ x: 0, y: 0 });
+  const [move, setMove] = React.useState({ x: 0, y: 0 });
   const onPointerDown = React.useCallback(e => {
-    console.log('onPointerDown');
     setAnchor(eventToCoor(e));
+    setMove({ x: 0, y: 0 });
+    setIsMoving(true);
   }, []);
 
+  const onPointerMove = React.useCallback(e => {
+    const movedCoor = eventToCoor(e);
+    if (isMoving) {
+      const moved = {
+        x: movedCoor.x - anchor.x,
+        y: movedCoor.y - anchor.y
+      };
+      setMove({
+        x: moved.x,
+        y: moved.y
+      });
+    }
+  }, [isMoving, anchor.x, anchor.y]);
+
   const save = React.useCallback(e => {
-    if (anchor) {
+    if (isMoving) {
       setOffset(preOffset => {
         return {
-          x: preOffset.x + movedDis.x,
-          y: preOffset.y + movedDis.y
+          x: preOffset.x + move.x,
+          y: preOffset.y + move.y
         };
       });
-      setAnchor();
-      setMovedDis({ x: 0, y: 0 });
+      setMove({ x: 0, y: 0 });
+      setIsMoving(false);
     }
-  }, [movedDis, anchor]);
+
+  }, [isMoving, move.x, move.y]);
 
   const onPointerUp = React.useCallback(e => {
-    console.log('onPointerUp');
     save(e);
   }, [save]);
   const onPointerLeave = React.useCallback(e => {
-    console.log('onPointerLeave');
     save(e);
   }, [save]);
-  const onPointerMove = React.useCallback(e => {
-    const movedCoor = eventToCoor(e);
-    if (anchor) {
-      setMovedDis({
-        x: movedCoor.x - anchor.x,
-        y: movedCoor.y - anchor.y
-      });
-    }
-  }, [anchor]);
 
   return {
-    movedDis,
+    anchor,
+    setAnchor,
+    isMoving,
     offset,
+    setOffset,
+    zoomOffset,
+    setZoomOffset,
+    move,
     onPointerDown,
     onPointerMove,
     onPointerUp,

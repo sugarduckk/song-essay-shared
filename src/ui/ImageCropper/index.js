@@ -7,83 +7,127 @@ import BrowseFileButton from '../LabelledFileUploader/BrowseFileButton';
 import ImageAreaContainer from './ImageAreaContainer';
 import AnotherContainer from './AnotherContainer';
 import usePointerHandlers from './usePinterHandlers';
+import ZoomBar from './ZoomBar';
 
-const maxScale = 4;
+const maxZoom = 4;
+const canvasRatio = 1;
+const padding = 0.15;
 
-const ImageCropper = ({ label, error, ...otherProps }) => {
-  const { movedDis, offset, ...pointerHandlers } = usePointerHandlers();
+const ImageCropper = ({ label, error, value, onChange, ...otherProps }) => {
+  const [dim, setDim] = React.useState();
+  const { anchor, isMoving, offset, setOffset, zoomOffset, setZoomOffset, move, ...pointerHandlers } = usePointerHandlers();
   const [zoom, setZoom] = React.useState(0);
   const [img, setImg] = React.useState();
   const canvasRef = React.useRef();
   React.useEffect(() => {
     if (img) {
-      var ctx = canvasRef.current.getContext('2d');
-      const ratio = img.width / img.height;
-      const portrait = ratio < 1;
-      const side = portrait ? img.height : img.width;
-      const cWidth = side;
-      const cHeight = side;
-      canvasRef.current.width = cWidth;
-      canvasRef.current.height = cHeight;
-      var sx, sy, swidth, sheight, x, y, width, height;
-      sx = 0;
-      sy = 0;
-      swidth = img.width;
-      sheight = img.height;
+      const imgRatio = img.width / img.height;
+      const portrait = imgRatio < canvasRatio;
+      // determine canvas dimension
+      var cWidth, cHeight;
       if (portrait) {
-        y = 0;
-        height = side;
-        width = ratio * side;
-        x = (side - width) / 2;
+        cHeight = img.height;
+        cWidth = canvasRatio * cHeight;
       }
       else {
-        x = 0;
-        width = side;
-        height = side / ratio;
-        y = (side - height) / 2;
+        cWidth = img.width;
+        cHeight = cWidth / canvasRatio;
       }
-      // define inner square
+      // define box size
+      var bx = padding * cWidth;
+      var by = padding * cHeight;
+      var bwidth = (1 - 2 * padding) * cWidth;
+      var bheight = (1 - 2 * padding) * cHeight;
+      // draw the image onto canvas
       var ix, iy, iwidth, iheight;
+
       if (portrait) {
-        ix = x;
-        iy = (side - width) / 2;
-        iwidth = width,
-          iheight = width;
+        iwidth = bwidth;
+        iheight = iwidth / imgRatio;
       }
       else {
-        ix = (side - height) / 2;
-        iy = y;
-        iwidth = height,
-          iheight = height;
+        iheight = bheight;
+        iwidth = bheight * imgRatio;
       }
+      ix = (cWidth - iwidth) / 2;
+      iy = (cHeight - iheight) / 2;
+      setDim({
+        cDim: {
+          width: cWidth,
+          height: cHeight
+        },
+        bDim: {
+          x: bx,
+          y: by,
+          width: bwidth,
+          height: bheight
+        },
+        iDim: {
+          x: ix,
+          y: iy,
+          width: iwidth,
+          height: iheight
+        }
+      });
+    }
+  }, [img]);
+  React.useEffect(() => {
+    if (dim) {
+      const { cDim, bDim, iDim } = dim;
+      var ctx = canvasRef.current.getContext('2d');
+      canvasRef.current.width = cDim.width;
+      canvasRef.current.height = cDim.height;
+
       // image position
-      var mul = (1 + (zoom * maxScale / 100));
-      var dwidth = width * mul;
-      var dheight = height * mul;
+      var mul = (1 + (zoom * maxZoom / 100));
+      var zwidth = iDim.width * mul;
+      var zheight = iDim.height * mul;
 
-      var dx = ((side - dwidth) / 2) + (movedDis.x * cWidth) + (offset.x * cWidth);
-      var dy = ((side - dheight) / 2) + (movedDis.y * cHeight) + (offset.y * cHeight);
+      var extraX = (offset.x + move.x + zoomOffset.x) * cDim.width;
+      var extraY = (offset.y + move.y + zoomOffset.y) * cDim.height;
+      var zx, zy;
+      zx = iDim.x + extraX;
+      zy = iDim.y + extraY;
 
-      if (dx > ix) {
-        dx = ix;
+      var exceedX = false;
+      var exceedY = false;
+      var newOffsetX, newOffsetY;
+      if (zx > bDim.x) {
+        zx = bDim.x;
+        newOffsetX = ((bDim.x - iDim.x) / cDim.width) - move.x - zoomOffset.x;
+        exceedX = true;
       }
-      else if (dx + dwidth < ix + iwidth) {
-        dx = ix + iwidth - dwidth;
+      else if (zx + zwidth < bDim.x + bDim.width) {
+        zx = bDim.x + bDim.width - zwidth;
+        newOffsetX = ((bDim.x + bDim.width - zwidth - iDim.x) / cDim.width) - move.x - zoomOffset.x;
+        exceedX = true;
       }
-      if (dy > iy) {
-        dy = iy;
+      if (zy > bDim.y) {
+        zy = bDim.y;
+        newOffsetY = ((bDim.y - iDim.y) / cDim.height) - move.y - zoomOffset.y;
+        exceedY = true;
       }
-      else if (dy + dheight < iy + iheight) {
-        dy = iy + iheight - dheight;
+      else if (zy + zheight < bDim.y + bDim.height) {
+        zy = bDim.y + bDim.height - zheight;
+        newOffsetY = ((bDim.y + bDim.height - zheight - iDim.y) / cDim.height) - move.y - zoomOffset.y;
+        exceedY = true;
+      }
+      if (exceedX || exceedY) {
+        setOffset(preOffset => {
+          return {
+            x: exceedX ? newOffsetX : preOffset.x,
+            y: exceedY ? newOffsetY : preOffset.y
+          };
+        });
       }
 
-      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, dwidth, dheight);
+      ctx.drawImage(img, 0, 0, img.width, img.height, zx, zy, zwidth, zheight);
       ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-      ctx.rect(0, 0, side, side);
-      ctx.rect(ix, iy, iwidth, iheight);
+      ctx.rect(0, 0, cDim.width, cDim.height);
+      ctx.rect(bDim.x, bDim.y, bDim.width, bDim.height);
       ctx.fill("evenodd");
     }
-  }, [img, zoom, movedDis.x, movedDis.y, offset.x, offset.y, movedDis, offset]);
+  }, [img, move.x, move.y, offset.x, offset.y, zoomOffset.x, zoomOffset.y, setOffset, zoom, dim]);
   const selectImage = React.useCallback(e => {
     const file = e.target.files[0];
     var img = new Image;
@@ -91,7 +135,42 @@ const ImageCropper = ({ label, error, ...otherProps }) => {
       setImg(img);
     };
     img.src = URL.createObjectURL(file);
-  }, []);
+    onChange('profile', () => file);
+  }, [onChange]);
+  const onZoom = React.useCallback(e => {
+    const currentZoom = e.target.value;
+    setZoom(preZoom => {
+      // const newZoomOffsetX = (iDim.width - zwidth) / (2 * cDim.width);
+      // const newZoomOffsetY = (iDim.height - zheight) / (2 * cDim.height);
+      setZoomOffset(preZoomOffset => {
+        if (dim) {
+          const { iDim, cDim, bDim } = dim;
+          //preZoom
+          var preMul = (1 + (preZoom * maxZoom / 100));
+          var preZwidth = iDim.width * preMul;
+          var preZheight = iDim.height * preMul;
+
+          var mul = (1 + (currentZoom * maxZoom / 100));
+          var zwidth = iDim.width * mul;
+          var zheight = iDim.height * mul;
+
+          var px = ((bDim.width / 2) - ((preZoomOffset.x + offset.x) * cDim.width)) / preZwidth;
+          var py = ((bDim.height / 2) - ((preZoomOffset.y + offset.y) * cDim.height)) / preZheight;
+
+          var tx = px * zwidth;
+          var ty = py * zheight;
+
+          var newZoomOffsetX = (((bDim.width / 2) - (tx)) / cDim.width) - offset.x;
+          var newZoomOffsetY = (((bDim.height / 2) - (ty)) / cDim.height) - offset.y;
+        }
+        return {
+          x: newZoomOffsetX,
+          y: newZoomOffsetY
+        };
+      });
+      return currentZoom;
+    });
+  }, [dim, setZoomOffset, offset.x, offset.y]);
   return <>
     <Label htmlFor={label}>{label}</Label>
     <ImageCropperContainer>
@@ -100,7 +179,7 @@ const ImageCropper = ({ label, error, ...otherProps }) => {
           <ImageArea ref={canvasRef} {...pointerHandlers} hasTouchAction={img == undefined} />
         </ImageAreaContainer>
       </AnotherContainer>
-      <input type="range" min="0" max="100" value={zoom} onChange={e => { setZoom(e.target.value); }} />
+      {img && <ZoomBar min="0" max="100" value={zoom} onChange={onZoom} />}
       <BrowseFileButton label={'select file'} accept={'.jpg,.jpeg,.png'} onChange={selectImage} multiple={false} />
     </ImageCropperContainer>
     {error && <FormItemErrorMessage>{error}</FormItemErrorMessage>}

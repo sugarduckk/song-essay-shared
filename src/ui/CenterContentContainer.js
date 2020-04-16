@@ -4,7 +4,7 @@ const CenterContentContainer = styled.div`
   width: 100%;
   margin: auto;
   @media (min-width: ${props => props.theme.Dim.phoneWidth}px) {
-    width: 60%;
+    width: ${props => props.width ? props.width : '60%'};
   }
 `;
 
