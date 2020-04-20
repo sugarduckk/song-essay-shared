@@ -14,6 +14,7 @@ const canvasRatio = 1;
 const padding = 0.15;
 
 const ImageCropper = ({ label, error, value, onChange, ...otherProps }) => {
+  const [crop, setCrop] = React.useState();
   const [dim, setDim] = React.useState();
   const { anchor, isMoving, offset, setOffset, zoomOffset, setZoomOffset, move, ...pointerHandlers } = usePointerHandlers();
   const [zoom, setZoom] = React.useState(0);
@@ -121,6 +122,15 @@ const ImageCropper = ({ label, error, value, onChange, ...otherProps }) => {
         });
       }
 
+      const m = img.width / zwidth;
+
+      setCrop({
+        x: (bDim.x - zx) * m,
+        y: (bDim.y - zy) * m,
+        width: bDim.width * m,
+        height: bDim.height * m
+      });
+
       ctx.drawImage(img, 0, 0, img.width, img.height, zx, zy, zwidth, zheight);
       ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
       ctx.rect(0, 0, cDim.width, cDim.height);
@@ -135,8 +145,16 @@ const ImageCropper = ({ label, error, value, onChange, ...otherProps }) => {
       setImg(img);
     };
     img.src = URL.createObjectURL(file);
-    onChange('profile', () => file);
-  }, [onChange]);
+  }, []);
+  React.useEffect(() => {
+    if (crop && img) {
+      onChange('profile', () => {
+        return {
+          img, crop
+        };
+      });
+    }
+  }, [onChange, crop, img]);
   const onZoom = React.useCallback(e => {
     const currentZoom = e.target.value;
     setZoom(preZoom => {
