@@ -10,6 +10,7 @@ const ClickableText = withSyntheticEvents(styled.div`
   margin: ${props => props.theme.Dim.FormItemMargin}px;
   font-family: Prompt;
   text-align: center;
+  text-decoration: none;
   ${props => {
     if (props.isInteracted) {
       return css`color: ${props => props.theme.Color.Primary};`;

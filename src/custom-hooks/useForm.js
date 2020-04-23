@@ -1,29 +1,42 @@
 import React from 'react';
 
-const useForm = (defaultValues, callback, validate) => {
+const useForm = (defaultValues, callback, validate, bypassButtons = []) => {
 
   const [values, setValues] = React.useState(defaultValues);
   const [errors, setErrors] = React.useState({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [buttonId, setButtonId] = React.useState()
+
+  const onButtonClick = React.useCallback(e => {
+    setButtonId(e.target.name)
+  }, [])
 
   const resetField = React.useCallback(() => {
     setValues(defaultValues);
   }, [defaultValues]);
 
   React.useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      callback(values, setIsSubmitting, resetField);
+    // no errors
+    if (Object.keys(errors).length === 0) {
+      if(isSubmitting){
+        callback(values, setIsSubmitting, resetField, buttonId);
+      }
     }
     else {
       setIsSubmitting(false);
     }
-  }, [errors, callback, isSubmitting, values, resetField]);
+  }, [errors, callback, isSubmitting, values, resetField, buttonId]);
 
   const handleSubmit = React.useCallback((event) => {
     if (event) event.preventDefault();
-    setErrors(validate(values));
+    if(!bypassButtons.includes(buttonId)){
+      setErrors(validate(values));
+    }
+    else{
+      setErrors({})
+    }
     setIsSubmitting(true);
-  }, [validate, values]);
+  }, [validate, values, buttonId, bypassButtons]);
 
   const handleChange = React.useCallback((event) => {
     event.persist();
@@ -48,7 +61,8 @@ const useForm = (defaultValues, callback, validate) => {
     handleSubmit,
     values,
     errors,
-    isSubmitting
+    isSubmitting,
+    onButtonClick
   };
 };
 
