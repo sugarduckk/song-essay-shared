@@ -22,13 +22,13 @@ const CustomScreen = ({ customScreen, onSubmit, onCancel, onTransitionEnd }) => 
             });
     }, [submitCallback, onSubmit]);
 
-    const { handleChange, handleSubmit, values, errors, isSubmitting } = useForm(defaultValues, onCustomScreenSubmit, validator);
+    const { handleChange, handleCustomChange, handleSubmit, values, errors, isSubmitting } = useForm(defaultValues, onCustomScreenSubmit, validator);
 
     return <DimBackground show={show} onTransitionEnd={onTransitionEnd}>
         <PopUpContainer>
             <FloatingForm onSubmit={handleSubmit}>
                 <Fieldset disabled={isSubmitting}>
-                    {FormItems && <FormItems {...formProps} values={values || defaultValues} handleChange={handleChange} errors={errors} />}
+                    {FormItems && <FormItems {...formProps} values={values || defaultValues} handleChange={handleChange} handleCustomChange={handleCustomChange} errors={errors} />}
                     <SubmitButton type='submit'>Submit</SubmitButton>
                     <CancelButton type='button' onClick={onCancel}>Cancel</CancelButton>
                 </Fieldset>

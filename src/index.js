@@ -50,6 +50,7 @@ import UploadFileButton from './ui/UploadFileButton';
 import ImageCropper from './ui/ImageCropper';
 import styledLink from './ui/styledLink'
 import ListItem from './ui/ListItem'
+import ClickableListItem from './ui/ClickableListItem'
 import LargeProfileImg from './ui/LargeProfileImg'
 
 export {
@@ -105,5 +106,6 @@ export {
   ImageCropper,
   styledLink,
   ListItem,
+  ClickableListItem,
   LargeProfileImg
 };

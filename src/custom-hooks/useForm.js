@@ -5,11 +5,11 @@ const useForm = (defaultValues, callback, validate, bypassButtons = []) => {
   const [values, setValues] = React.useState(defaultValues);
   const [errors, setErrors] = React.useState({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [buttonId, setButtonId] = React.useState()
+  const [buttonId, setButtonId] = React.useState();
 
   const onButtonClick = React.useCallback(e => {
-    setButtonId(e.target.name)
-  }, [])
+    setButtonId(e.target.name);
+  }, []);
 
   const resetField = React.useCallback(() => {
     setValues(defaultValues);
@@ -18,7 +18,7 @@ const useForm = (defaultValues, callback, validate, bypassButtons = []) => {
   React.useEffect(() => {
     // no errors
     if (Object.keys(errors).length === 0) {
-      if(isSubmitting){
+      if (isSubmitting) {
         callback(values, setIsSubmitting, resetField, buttonId);
       }
     }
@@ -29,11 +29,11 @@ const useForm = (defaultValues, callback, validate, bypassButtons = []) => {
 
   const handleSubmit = React.useCallback((event) => {
     if (event) event.preventDefault();
-    if(!bypassButtons.includes(buttonId)){
+    if (!bypassButtons.includes(buttonId)) {
       setErrors(validate(values));
     }
-    else{
-      setErrors({})
+    else {
+      setErrors({});
     }
     setIsSubmitting(true);
   }, [validate, values, buttonId, bypassButtons]);
