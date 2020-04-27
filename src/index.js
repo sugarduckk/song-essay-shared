@@ -42,16 +42,17 @@ import Label from './ui/Label';
 import LabelledRadioGroup from './ui/LabelledRadioGroup';
 import LabelledSelect from './ui/LabelledSelect';
 import UploadScreen from './ui/UploadScreen';
-import * as SubmissionStatus from './ui/SubmissionStatus';
+import * as SubmissionPreview from './ui/SubmissionPreview';
 import BottomBar from './ui/BottomBar';
 import StatusBar from './ui/StatusBar';
 import BottomBarScreen from './ui/BottomBarScreen';
 import UploadFileButton from './ui/UploadFileButton';
 import ImageCropper from './ui/ImageCropper';
-import styledLink from './ui/styledLink'
-import ListItem from './ui/ListItem'
-import ClickableListItem from './ui/ClickableListItem'
-import LargeProfileImg from './ui/LargeProfileImg'
+import styledLink from './ui/styledLink';
+import ListItem from './ui/ListItem';
+import ClickableListItem from './ui/ClickableListItem';
+import LargeProfileImg from './ui/LargeProfileImg';
+import LoadMoreContainer from './ui/SubmissionPreview/LoadMoreContainer';
 
 export {
   ThemeProvider,
@@ -97,7 +98,7 @@ export {
   LabelledRadioGroup,
   LabelledSelect,
   UploadScreen,
-  SubmissionStatus,
+  SubmissionPreview,
   BottomBar,
   StatusBar,
   BottomBarScreen,
@@ -107,5 +108,6 @@ export {
   styledLink,
   ListItem,
   ClickableListItem,
-  LargeProfileImg
+  LargeProfileImg,
+  LoadMoreContainer
 };
