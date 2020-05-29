@@ -3,7 +3,7 @@ import withSyntheticEvents from '../higher-order-components/withSyntheticEvents'
 
 const ClickableText = withSyntheticEvents(styled.div`
   border-radius: ${props => props.theme.Dim.BorderRadius}px;
-  font-size: 0.8em;
+  font-size: 1em;
   color: grey;
   padding: 0.25em;
   cursor: pointer;

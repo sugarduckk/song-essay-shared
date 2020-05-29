@@ -18,6 +18,7 @@ const DividerWithTextContainer = styled.div`
   &:after {
     margin-left: .3em;
   }
+  font-family: ${props => props.theme.Font.Primary};
 `;
 
 const DividerWithText = props => {

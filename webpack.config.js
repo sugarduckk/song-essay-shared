@@ -1,7 +1,28 @@
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
+
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    main: './src/index.js',
+    layouts: './src/layouts/index.js',
+    hooks: './src/hooks/index.js',
+    'form-items': './src/form-items/index.js',
+    buttons: './src/buttons/index.js'
+  },
   output: {
-    libraryTarget: 'commonjs2'
+    path: path.resolve(__dirname, 'lib'),
+    filename: '[name].js',
+    library: 'song-essay-shared',
+    libraryTarget: 'umd'
+  },
+  // plugins: [
+  //   new CleanWebpackPlugin()
+  // ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+    runtimeChunk: 'single'
   },
   module: {
     rules: [
